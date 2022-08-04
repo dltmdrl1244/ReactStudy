@@ -5,9 +5,9 @@ import "./TodoInsert.scss";
 export default function TodoInsert({ onInsert }) {
   const [value, setValue] = useState("");
 
-  const onChange = (e) => {
+  const onChange = useCallback((e) => {
     setValue(e.target.value);
-  };
+  }, []);
 
   const onSubmit = useCallback(
     (e) => {
@@ -18,7 +18,6 @@ export default function TodoInsert({ onInsert }) {
     },
     [onInsert, value]
   );
-
 
   return (
     <form className="TodoInsert" onSubmit={onSubmit}>
