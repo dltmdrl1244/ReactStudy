@@ -3,6 +3,9 @@
     padding: 1rem;
     align-items: center;
 
+    // &: 부모, 즉 TodoListItem
+    // TodoListItem 뒤에 있는 TodoListItem에만 적용, 즉 첫 번째를 제외한 모든 items에 적용
+
     &+& {
         border-top: 1px solid #dee2e6;
     }

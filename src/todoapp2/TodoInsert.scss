@@ -3,6 +3,7 @@
     display: flex;
     input {
         background: none;
+        outline: none;
         color: white;
         font-size: 1.125rem;
         border: none;
@@ -23,7 +24,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: 0.1s background ease-in;
+        transition: 0.1s ease-in;
         cursor: pointer;
         &:hover {
             background: #adb5bd;
