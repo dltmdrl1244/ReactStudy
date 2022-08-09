@@ -7,7 +7,7 @@ import {
 import "./TodoListItem.scss";
 import cn from "classnames";
 
-export const TodoListItem = ({ todo, onRemove, onToggle }) => {
+const TodoListItem = ({ todo, onRemove, onToggle }) => {
   const { id, text, checked } = todo;
 
   return (
@@ -22,3 +22,5 @@ export const TodoListItem = ({ todo, onRemove, onToggle }) => {
     </div>
   );
 };
+
+export default React.memo(TodoListItem);

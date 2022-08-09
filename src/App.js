@@ -1,50 +1,87 @@
 import React, { useCallback, useRef, useState } from "react";
-import TodoTemplate from "./todoapp2/TodoTemplate";
-import TodoInsert from "./todoapp2/TodoInsert";
-import TodoList from "./todoapp2/TodoList";
+import produce from "immer";
 
-export default function App() {
-  const [todos, setTodos] = useState([]);
+const App = () => {
   const nextId = useRef(1);
+  const [form, setForm] = useState({ name: "", username: "" });
+  const [data, setData] = useState({
+    array: [],
+    uselessValue: null,
+  });
 
-  const onInsert = useCallback(
-    (text) => {
-      setTodos(
-        todos.concat({
-          id: nextId.current,
-          text: text,
-          checked: false,
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setForm(
+      produce(form, (draft) => {
+        draft[name] = value;
+      })
+    );
+  }, [form]);
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const info = {
+        id: nextId.current,
+        name: form.name,
+        username: form.username,
+      };
+
+      setData(
+        produce(data, (draft) => {
+          draft.array.push(info);
         })
       );
+
+      setForm({
+        name: "",
+        username: "",
+      });
       nextId.current += 1;
     },
-    [todos]
+    [data, form.name, form.username]
   );
 
-  const onToggle = useCallback(
-    (id) => {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === id ? { ...todo, checked: !todo.checked } : todo
-        )
-      );
-    },
-    [todos]
-  );
-
-  const onRemove = useCallback(
-    (id) => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    },
-    [todos]
-  );
+  const onRemove = useCallback((id) => {
+    setData(
+      produce((draft) => {
+        draft.array.splice(
+          draft.array.findIndex((info) => info.id === id),
+          1
+        );
+      })
+    );
+  }, []);
 
   return (
     <div>
-      <TodoTemplate>
-        <TodoInsert onInsert={onInsert} />
-        <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
-      </TodoTemplate>
+      <form onSubmit={onSubmit}>
+        <input
+          name="username"
+          placeholder="아이디"
+          value={form.username}
+          onChange={onChange}
+        />
+        <input
+          name="name"
+          placeholder="이름"
+          value={form.name}
+          onChange={onChange}
+        />
+        <button type="submit">등록</button>
+      </form>
+
+      <div>
+        <ul>
+          {data.array.map((info) => (
+            <li key={info.id} onClick={() => onRemove(info.id)}>
+              {info.username} ({info.name})
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
-}
+};
+
+export default App;
