@@ -1,6 +1,9 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
-export const About = () => {
+const About = () => {
+  const { userInfo } = useParams();
+  console.log(userInfo);
   return (
     <div>
       <h2>소개</h2>
@@ -8,3 +11,5 @@ export const About = () => {
     </div>
   );
 };
+
+export default About;
