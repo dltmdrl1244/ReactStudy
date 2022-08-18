@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import NewsList from "./news/NewsList";
-import Categories from "./news/Categories";
+import React from "react";
+import ColorBox from "./components/ColorBox";
+import { ColorProvider } from "./contexts/color";
+import SelectColor from "./components/SelectColor";
+
 const App = () => {
-  const [category, setCategory] = useState("all");
-
-  const onSelect = useCallback(category => setCategory(category), []);
-
   return (
-    <>
-      <Categories category={category} onSelect={onSelect}/>
-      <NewsList category={category}/>
-    </>
+    <ColorProvider>
+      <div>
+        <SelectColor />
+        <ColorBox />
+      </div>
+    </ColorProvider>
   );
 };
 
